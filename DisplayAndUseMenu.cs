@@ -46,20 +46,20 @@ namespace DisplayMenu
 
         public static int MenuInput(List<string> menuOptions)
         {
-            int currentIndex = 0;
+            int currentIndex = 1;
             int menuStartRow = Console.CursorTop;
 
             while (true)
             {
                 ClearMenuArea(menuStartRow, menuOptions.Count);
                 Console.SetCursorPosition(0, menuStartRow);
-                HighlightCurrectChoice(menuOptions, currentIndex);
+                HighlightCurrectChoice(menuOptions, currentIndex - 1);
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 
                 // Move selection up
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    if (currentIndex > 0)
+                    if (currentIndex > 1)
                     {
                         currentIndex--;
                     }
@@ -75,7 +75,7 @@ namespace DisplayMenu
                 // Select current option
                 else if (key.Key == ConsoleKey.Enter)
                 {
-                    return currentIndex;
+                    return currentIndex -1;
                 }
                 continue;
 
