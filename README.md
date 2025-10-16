@@ -10,16 +10,16 @@ Keyboard navigation
 User interface  
 Exit option  
 
-## Supporting methods  
+## Supporting methods:  
 
-PositionWelcomeTestAndDividers  
+PositionWelcomeTestAndDividers()  
 Centers and decorates the welcome message with scalable dividers.  
   
-HighlightCurrentChoice  
+HighlightCurrentChoice()  
 Visually highlights the current selection.  
   
-ClearMenuArea  
+ClearMenuArea()  
 Refreshes only the menu portion of the console without clearing the entire window.  
 
-ValidateUserInput  
+ValidateUserInput()  
 Ensures the menu and welcome text meet required conditions before rendering.
