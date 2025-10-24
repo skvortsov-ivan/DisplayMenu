@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace DisplayMenu
+namespace Kontaktkatalogen.ConsoleUI
 {
-    public class DisplayAndUseMenu
+    public class DisplayMenu
     {
-        public static int? DisplayandUseMenu(List<string> menuOptions, string welcomeText)
+        public static int? DisplayandUseMenu(List<string> menuOptions, string welcomeText, bool simpleMenu)
         {
             //Clear console
             Console.Clear();
@@ -18,29 +17,43 @@ namespace DisplayMenu
             int? selectedMenuOption = null;
 
             //Loop until user made a correct choice
-            while(selectedMenuOption == null)
+            while (selectedMenuOption == null)
             {
                 //Error handling:
-                if(ValidateUserInput(menuOptions, welcomeText) != true)
+                if (ValidateUserInput(menuOptions, welcomeText) != true)
                 {
                     return selectedMenuOption;
                 }
 
-                //Welcome text
-                PositionWelcomeTextAndDeviders(welcomeText);
+                //If user chose to make menu without headline
+                if (simpleMenu)
+                {
+                    PositionWelcomeTextAndDeviders(welcomeText);
+                    Console.WriteLine("");
+                }
 
                 //Explaining how to navigate to user
-                Console.WriteLine("\nUse arrowkeys to navigate. Press Enter to select.\n");
+                Console.WriteLine("Use arrowkeys to navigate. Press Enter to select.\n");
 
                 //Allowing user to access menu
-                selectedMenuOption = MenuChoice(menuOptions);
+                selectedMenuOption = MenuChoice(menuOptions, simpleMenu);
             }
+
+            //Clear console
+            Console.Clear();
+
             //Returning selected menu option
             return selectedMenuOption;
         }
 
-        public static int MenuChoice(List<string> menuOptions)
+        public static int MenuChoice(List<string> menuOptions, bool simpleMenu)
         {
+            //Adding Exit Menu option, if it doesn't already exists
+            if (!menuOptions.Contains("Exit menu"))
+            {
+                menuOptions.Add("Exit menu");
+            }
+
             return MenuInput(menuOptions);
         }
 
@@ -55,7 +68,7 @@ namespace DisplayMenu
                 Console.SetCursorPosition(0, menuStartRow);
                 HighlightCurrectChoice(menuOptions, currentIndex - 1);
                 ConsoleKeyInfo key = Console.ReadKey(true);
-                
+
                 // Move selection up
                 if (key.Key == ConsoleKey.UpArrow)
                 {
@@ -75,7 +88,11 @@ namespace DisplayMenu
                 // Select current option
                 else if (key.Key == ConsoleKey.Enter)
                 {
-                    return currentIndex -1;
+                    if (currentIndex == menuOptions.Count)
+                    {
+                        return 0;
+                    }
+                    return currentIndex;
                 }
                 continue;
 
@@ -135,7 +152,7 @@ namespace DisplayMenu
             {
                 dividerLength = defaultDividerLength;
             }
-            
+
             //Divider string
             string divider = new string('=', dividerLength);
 
@@ -154,14 +171,6 @@ namespace DisplayMenu
                 return false;
             }
 
-            //Check if a welcome text type and if string is empty
-            if (welcomeText == null || welcomeText.GetType() != typeof(string) || string.IsNullOrWhiteSpace(welcomeText))
-            {
-                Console.WriteLine("\nThere is no welcoming text, please try again\n");
-                return false;
-            }
-
-            menuOptions.Add("Exit menu");
             //Check if menu is too big
             if (menuOptions.Count > 9)
             {
