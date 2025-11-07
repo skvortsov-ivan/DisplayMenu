@@ -25,6 +25,9 @@ namespace Kontaktkatalogen.ConsoleUI
                     return selectedMenuOption;
                 }
 
+                //Putting the console cursor to its origin
+                Console.SetCursorPosition(0, 0);
+
                 //If user chose to make menu without headline
                 if (simpleMenu)
                 {
@@ -41,6 +44,7 @@ namespace Kontaktkatalogen.ConsoleUI
 
             //Clear console
             Console.Clear();
+            Console.SetCursorPosition(0, 0);
 
             //Returning selected menu option
             return selectedMenuOption;
@@ -99,6 +103,7 @@ namespace Kontaktkatalogen.ConsoleUI
             }
         }
 
+        //Highlights the current menu option
         public static void HighlightCurrectChoice(List<string> menuOptions, int selectedIndex)
         {
             for (int i = 0; i < menuOptions.Count; i++)
@@ -127,6 +132,7 @@ namespace Kontaktkatalogen.ConsoleUI
             Console.ResetColor();
         }
 
+        //Position welcome text, padding and devider
         public static void PositionWelcomeTextAndDeviders(string welcomeText)
         {
             //Calculating padding for the welcome text and applying it
@@ -162,6 +168,7 @@ namespace Kontaktkatalogen.ConsoleUI
             Console.WriteLine(divider);
         }
 
+        //Validates user input
         public static bool ValidateUserInput(List<string> menuOptions, string welcomeText)
         {
             //Check if menu options exist or if there are 0 options
@@ -178,6 +185,7 @@ namespace Kontaktkatalogen.ConsoleUI
                 return false;
             }
 
+            //Check if welcome text is too long
             if (welcomeText.Length > Console.WindowWidth)
             {
                 Console.WriteLine("Welcome text is too long, please make it shorter");
@@ -186,6 +194,7 @@ namespace Kontaktkatalogen.ConsoleUI
             return true;
         }
 
+        //Clears the menu area. It's used after the user selects a different menu option.
         public static void ClearMenuArea(int startRow, int lineCount)
         {
             for (int i = 0; i < lineCount; i++)
